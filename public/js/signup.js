@@ -14,8 +14,9 @@ document.getElementById('signUpForm').onsubmit = async function signup(event) {
         const data = await response.json();
 
         if (response.status === 400 && data.message === 'User already exists') {
-          alert('User already exists! Please choose a different email.');
+          alert('User already exists, Please Login.');
         } else if (response.status === 201) {
+            alert('Successfuly signed up..!');
             window.location.href = "../Login/login.html";
         } else {
             throw new Error('Failed to login');
