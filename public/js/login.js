@@ -10,6 +10,8 @@ document.getElementById('loginForm').onsubmit = async function login(event) {
         if (response.status === 200) {
             alert(response.data.message);
             console.log(response.data);
+            localStorage.setItem('token', response.data.token);
+            window.location.href = "";
         } else {
             throw new Error(response.data.message);
         }
