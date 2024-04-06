@@ -11,7 +11,7 @@ document.getElementById('loginForm').onsubmit = async function login(event) {
             alert(response.data.message);
             console.log(response.data);
             localStorage.setItem('token', response.data.token);
-            window.location.href = "";
+            window.location.href = "../views/chats.html";
         } else {
             throw new Error(response.data.message);
         }
