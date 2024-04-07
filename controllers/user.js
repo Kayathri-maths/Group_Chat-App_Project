@@ -28,7 +28,7 @@ const signup = async (req, res, next) => {
 };
 
 const generateAccessToken = (id) =>{
-  return jwt.sign( { userId: id} , 'kayu457924513secretkey')
+  return jwt.sign( { userId: id} , process.env.TOKEN_SECRET)
 }
 
 const login = async (req, res, next) => {

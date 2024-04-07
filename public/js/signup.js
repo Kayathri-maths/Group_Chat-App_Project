@@ -13,7 +13,7 @@ document.getElementById('signUpForm').onsubmit = async function signup(event) {
         const response = await axios.post('http://localhost:3000/user/signup', signupDetails);
         console.log(response);
           alert(response.data.message);
-          window.location.href = "../view/login.html";
+          window.location.href = "../views/login.html";
     } catch (error) {
         console.log(error);
         document.body.innerHTML += `<div style="color:red">${error}</div>`;
