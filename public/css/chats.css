@@ -11,10 +11,10 @@ header {
 
 .container {
     display: flex;
-    justify-content: flex-end; /* Align to the right */
+    justify-content: flex-end;
     align-items: center;
-    height: 100%; /* Take up full height */
-    padding-right: 20px; /* Add some padding to the right side */
+    height: 100%; 
+    padding-right: 20px; 
 }
 
 .chat-window {
@@ -26,7 +26,7 @@ header {
 }
 
 .chat-area {
-    height: 400px; /* Set a fixed height for the chat area */
+    height: 400px;
     overflow-y: scroll;
     padding: 20px;
 }
@@ -36,11 +36,30 @@ header {
     flex-direction: column;
 }
 
-.message {
-    margin-bottom: 10px;
-    background-color: #fff;
-    padding: 1px;
-    border-radius: 4px;
+.rightsidemessages {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.rightsidemessages p {
+    width: fit-content;
+    background: #e08ccb;
+    color: rgb(0, 0, 0);
+    padding:  15px;
+    border-radius: 5px;
+}
+.leftsidemessages {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+.leftsidemessages p {
+    background: #9695ff;
+    color: rgb(0, 0, 0);
+    padding: 15px;
+    border-radius: 5px;
+    width: fit-content;
 }
 
 .user-input {

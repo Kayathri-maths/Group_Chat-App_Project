@@ -5,6 +5,7 @@
    async function sendMessage() {
     try {
         const message = messageInput.value.trim();
+        if (!message) return; 
         const token = localStorage.getItem('token');
             const chat ={
                 message
@@ -12,7 +13,8 @@
             console.log('chatting...........',chat)
           const response =  await axios.post('http://localhost:3000/chat/sendmessages', chat , { headers: { "Authorization": token }});
            console.log('response.......',response);
-            showOnUserScreen(response.data.messages);
+            showOnUserScreen(response.data.messages, response.data.userId);
+            messageInput.value = '';
           
         } catch (err) {
         console.log(JSON.stringify(err));
@@ -28,28 +30,37 @@
         }
     });
 
-function showOnUserScreen(response){
-  const messageElement = document.createElement('div');
-  messageElement.classList.add('message');
-  messageElement.innerHTML =`<p>${response.name} : ${response.chats}</p>`  ;
-  chatArea.appendChild(messageElement);
-  messageInput.value = '';
-  chatArea.scrollTop = chatArea.scrollHeight;
-}
+    function showOnUserScreen(messages, userId) {
+      const messageElement = document.createElement('div');
+      let name;
+      
+      if (userId === messages.userId) {
+          name = 'You';
+          messageElement.classList.add('rightsidemessages');
+      } else {
+          name = messages.name; // Assuming messages contains sender's name
+          messageElement.classList.add('leftsidemessages');
+      }
+  
+      messageElement.innerHTML = `<p>${name} : ${messages.chats}</p>`;
+      chatArea.appendChild(messageElement);
+      // messageInput.value = '';
+      chatArea.scrollTop = chatArea.scrollHeight;
+  }
+  
 
 window.addEventListener("DOMContentLoaded", async () => {
-  try {
+
       const token = localStorage.getItem('token');
-
-      const response = await axios.get(`http://localhost:3000/chat/get-messages`, { headers: { "Authorization": token } });
-      console.log(response);
-      response.data.messages.forEach((message) => {
-          showOnUserScreen(message);
-      })
-
-  }
-  catch (error) {
-      console.log(JSON.stringify(error));
-      document.body.innerHTML += `<div style="color:red">${error.message}</div>`;
-  }
+      setInterval( async() => {
+        const response = await axios.get(`http://localhost:3000/chat/get-messages`, { headers: { "Authorization": token } });
+        console.log(response);
+        if(response) {
+           chatArea.innerHTML = ''; 
+            response.data.messages.forEach((message) => {
+                showOnUserScreen(message,response.data.userId);
+            })
+        }
+      },1000)
+  
 })
