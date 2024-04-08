@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const Chat = require('../models/Chat');
 
 const sendMessage = async (req, res, next) => {
@@ -9,7 +10,7 @@ const sendMessage = async (req, res, next) => {
 
         const message = await Chat.create({ name:user.name, chats: chat, userId: user.id, });
         if(message) {
-             return  res.status(200).json({ success: true, message: "message successfully sent" ,user:user.name, chat});
+             return  res.status(200).json({ success: true, message: "message successfully sent" , messages: message});
         }  else {
             return  res.status(400).json({ success: false, message: "Failed to sent" });
         }
@@ -20,6 +21,19 @@ const sendMessage = async (req, res, next) => {
     }
 }
 
+const getMessages = async (req, res, next) => {
+    try{
+        console.log('req......',req)
+        const messages = await Chat.findAll({ where: { userId: req.user.id}})
+        res.status(201).json({ messages: messages, success: true })
+    } catch (error){
+        console.log(error)
+        return res.status(500).json({ error: error, success: false });
+    }
+       
+}
+
 module.exports = {
-    sendMessage
+    sendMessage,
+    getMessages
 }
