@@ -50,17 +50,52 @@
   
 
 window.addEventListener("DOMContentLoaded", async () => {
+   try{
+    setInterval(async()=>{
+    const token = localStorage.getItem('token');
+    let concatedArray;
+    let message=JSON.parse(localStorage.getItem('messages'));
+    console.log(message);
 
-      const token = localStorage.getItem('token');
-      setInterval( async() => {
-        const response = await axios.get(`http://localhost:3000/chat/get-messages`, { headers: { "Authorization": token } });
-        console.log(response);
-        if(response) {
-           chatArea.innerHTML = ''; 
-            response.data.messages.forEach((message) => {
-                showOnUserScreen(message,response.data.userId);
-            })
+      if(message==null||message.length==0||message==undefined) {
+          lastmessageid=0;
+      } else {
+          lastmessageid=message[message.length-1].id
+      }
+      const response = await axios.get(`http://localhost:3000/chat/get-messages?lastmessageid=${lastmessageid}`, { headers: { "Authorization": token } });
+      console.log(response);
+      if(response.status === 201 ) {
+      //    chatArea.innerHTML = ''; 
+          // response.data.messages.forEach((message) => {
+          //     showOnUserScreen(message,response.data.userId);
+          // })
+          const backendArray=response.data.messages;
+          if(message==null||message==undefined||message.length==0){
+            concatedArray=[...backendArray]
+            console.log(concatedArray);
+          }
+          else{
+            concatedArray=message.concat(backendArray)
+            console.log(concatedArray);
+          }
+    
+          if(concatedArray.length>100){
+            concatedArray=concatedArray.slice(concatedArray.length-10)
+          }
+          console.log(concatedArray);
+    
+          const localstorageMessage=JSON.stringify(concatedArray);
+          localStorage.setItem('messages',localstorageMessage);
+          concatedArray.forEach(allMessages => {
+              showOnUserScreen(allMessages, response.data.userId);
+          });
         }
-      },1000)
+    },1000)
+   }   catch(err) {
+    console.log(JSON.stringify(err));
+    document.body.innerHTML += `<div style="color:red">${err.message}</div>`;
+   }
+    
+
   
 })
