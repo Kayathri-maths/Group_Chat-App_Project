@@ -5,10 +5,11 @@ const sendMessage = async (req, res, next) => {
     try {
         const user = req.user;
         console.log('user>>>>>>>', user);
-        const chat = req.body.message;
-        console.log('chat>>>>>>>', chat);
+        const { messages , groupId} = req.body;
+        console.log('chat>>>>>>>', messages);
+        console.log('chat>>>>>>>', groupId);
 
-        const message = await Chat.create({ name: user.name, chats: chat, userId: user.id, });
+        const message = await Chat.create({ name: user.name, chats: messages, userId: user.id ,groupId});
         if (message) {
             return res.status(200).json({ success: true, message: "message successfully sent", messages: message, userId: user.id });
         } else {
@@ -23,16 +24,24 @@ const sendMessage = async (req, res, next) => {
 
 const getMessages = async (req, res, next) => {
     try {
-        const messageId = req.query.lastmessageid;
-        console.log('msgid>>>>>>>>>>>>', messageId);
-        const messages = await Chat.findAll({
-            where: {
-                id: {
-                    [Op.gt]: messageId
-                }
-            }
-        });
-        res.status(201).json({ messages: messages, success: true, userId: req.user.id })
+       
+        const groupid = req.query.groupId;
+        console.log('groupid', groupid)
+        const allchats = await Chat.findAll({
+            where:{
+                groupId: groupid
+            },
+            order:[['createdAt','ASC']],
+        }
+        
+        );
+        console.log('alchats', allchats);
+        const userId = req.user.id;
+        return res.status(200).json({
+            success:true,
+            message: allchats,
+            userId:userId
+        })
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error, success: false });

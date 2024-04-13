@@ -9,20 +9,109 @@ header {
     text-align: center;
 }
 
-.container {
+/* .container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     height: 100%; 
-    padding-right: 20px; 
+    /* padding-right: 20px;  */
+    /* border: 1px solid gray; */
+/* } */ 
+
+
+/* Add this CSS to your chats.css file or create a new CSS file */
+/* Add this CSS to your chats.css file or create a new CSS file */
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Change from center to stretch */
+    height: 100%;
+    border: 1px solid gray;
 }
 
+.sidebar {
+    width: 30%;
+    padding: 20px;
+    background-color: #f0f0f0;
+    height: 475px; /* Set sidebar height to 100% */
+    overflow-y: auto; /* Add overflow-y for scrolling if needed */
+    border-right: 1px solid gray;
+}
+
+#allgrouplist {
+    margin-top: 20px;
+}
+
+#create-group {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+#create-group:hover {
+    background-color: #0056b3;
+}
+
+
+#group-form-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+#group-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+#group-form input[type="email"],
+#group-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#group-form button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#group-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
 .chat-window {
-    width: 1000px;
-    max-width: calc(100% - 20px); /* Take up full width minus padding */
+    width: 75%;
+    /* max-width: calc(100% - 20px); Take up full width minus padding */
     background-color: #f0f0f0;
     border-radius: 8px;
     overflow: hidden;
+    height: 100%;
 }
 
 .chat-area {
@@ -30,7 +119,9 @@ header {
     overflow-y: scroll;
     padding: 20px;
 }
-
+.highlighted {
+    background-color: #e99f9f; /* Change the background color as desired */
+  }
 .chat-messages {
     display: flex;
     flex-direction: column;

@@ -11,6 +11,24 @@
         <h1>Chat App</h1>
     </header>
     <div class="container">
+        <!-- <div>
+            <h1>Chat App</h1>
+        </div> -->
+        <div class="sidebar">
+         <button id="create-group" onclick="toggleForm()">Create New Group</button>
+            <div id="allgrouplist"> 
+                <ul id="group-list"></ul>
+            </div>
+            <div id="group-form-overlay">
+                <div id="group-form">
+                    <form id="create-group-form">
+                        <input type="text" id="group-name-input" placeholder="Enter group name" required>
+                        <input type="text" id="email-input" placeholder="Enter email" required>
+                        <button type="submit" id="create-new-group">Create Group</button>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="chat-window">
             <div class="chat-area" id="chat-area">
                 <!-- Chat Messages -->
