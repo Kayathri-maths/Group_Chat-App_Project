@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Page</title>
     <link rel="stylesheet" href="../public/css/chats.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
         <h1>Chat App</h1>
     </header>
     <div class="container">
-        <!-- <div>
-            <h1>Chat App</h1>
-        </div> -->
         <div class="sidebar">
          <button id="create-group" onclick="toggleForm()">Create New Group</button>
             <div id="allgrouplist"> 
@@ -25,11 +23,21 @@
                         <input type="text" id="group-name-input" placeholder="Enter group name" required>
                         <input type="text" id="email-input" placeholder="Enter email" required>
                         <button type="submit" id="create-new-group">Create Group</button>
+                        <button type="submit" id="cancel-group">Cancel</button>
                     </form>
                 </div>
             </div>
         </div>
+        <div class="chat-para" style="display: none;"> <p>"Welcome to Chat App! 
+            Join vibrant community and start enjoying meaningful conversations with awesome people like you.
+             Dive into discussions, share ideas, and make new friends.
+              Let's chat away and create memorable moments together <i class="far fa-smile"></i>!"
+           </p></div>
         <div class="chat-window">
+            <button id="group-members-button">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+         
             <div class="chat-area" id="chat-area">
                 <!-- Chat Messages -->
             </div>
@@ -39,6 +47,13 @@
             </div>
         </div>
     </div>
+    <div id="groupMembersModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Group Members</h2>
+          <ul id="groupMembersList"></ul>
+        </div>
+      </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
     <script src="../public/js/chats.js"></script>
 </body>
