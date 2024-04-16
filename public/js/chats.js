@@ -2,6 +2,23 @@
   const messageInput = document.getElementById('message-input');
   const sendButton = document.getElementById('send-button');
 
+  const socket = io.connect("http://localhost:3000");
+  socket.on("connect", () => {
+    console.log('Connected to server');
+  });
+
+
+  socket.on("received-message" , (message, groupId) => {
+       console.log( 'chat............',message);
+       let localStorageGroupId = localStorage.getItem('currentGroupId');
+       localStorageGroupId  = localStorageGroupId.replace(/"/g, '');
+      //  console.log( 'groupId............',groupId);
+      //  console.log( 'localStorageGroupId............',localStorageGroupId);
+       if(localStorageGroupId === groupId) {
+        showOnUserScreen(message)
+       }
+  })
+
    async function getGroupsForUser() {
     try {
       const token = localStorage.getItem('token');
@@ -13,7 +30,6 @@
       console.error("Unable to fetch groups:", error.message);
     }
   }
-
    async function sendMessage() {
     try {
         const messages = messageInput.value.trim();
@@ -29,6 +45,7 @@
           const response =  await axios.post('http://localhost:3000/chat/sendmessages', chat , { headers: { "Authorization": token }});
            console.log('response.......',response);
             showOnUserScreen(response.data.messages, response.data.userId);
+            socket.emit("send-message", response.data.messages, groupId);
             messageInput.value = '';
           
         } catch (err) {
@@ -210,8 +227,8 @@ async function displayGroupName(GroupName) {
   }
  }
 }
-displayUserMessages();
-setInterval(displayUserMessages, 1000);
+// displayUserMessages();
+// setInterval(displayUserMessages, 1000);
 async function displayGroupMembers(groupId) {
   try {
     // Fetch group members from the backend
