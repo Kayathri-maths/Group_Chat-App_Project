@@ -95,7 +95,6 @@ const getGroupMembers = async (req, res, next) => {
       };
     });
     console.log('group>>>>>>>>>>>>', group.users)
-    console.log("req.user.isAdmin::::::::::", req.usergroup);
     return res
       .status(200)
       .json({ members, isCurrentUserAdmin });
@@ -153,22 +152,17 @@ const makeAdmin = async (req, res, next) => {
 
 const removeUser = async (req, res, next) => {
   const { groupId, userId } = req.query;
-  console.log("user to be removed::::::::::", userId);
   try {
     // Check if the user is a member of the group
     const userGroup = await UserGroup.findOne({ where: { groupId, userId } });
     if (!userGroup) {
-      return res
-        .status(404)
-        .json({ message: "User is not a member of the group" });
+      return res.status(404).json({ message: "User is not a member of the group" });
     }
 
     // Remove the user from the group
     await userGroup.destroy();
 
-    res
-      .status(200)
-      .json({ message: "User removed from the group successfully" });
+    res.status(200).json({ message: "User removed from the group successfully" });
   } catch (error) {
     console.error("Error removing user from group:", error);
     res.status(500).json({ message: "Internal server error" });

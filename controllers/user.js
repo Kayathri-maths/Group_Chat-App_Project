@@ -16,9 +16,16 @@ const signup = async (req, res, next) => {
 
     const saltRounds = 10;
     bcrypt.hash(password, saltRounds, async (err, hash) => {
-      await User.create({ name: name, email: email, password: hash, phonenumber: phonenumber });
-      res.status(201).json({ message: 'Successfully signed up..!' });
-    })
+      if (err) {
+        throw err; // Handle error properly
+      }
+      try {
+        await User.create({ name: name, email: email, password: hash, phonenumber: phonenumber });
+        res.status(201).json({ message: 'Successfully signed up..!' });
+      }   catch (error) {
+        return res.status(500).json({ success: false, message: 'Error creating user' });
+      }
+    });
   }
   catch (error) {
     res.status(500).json({

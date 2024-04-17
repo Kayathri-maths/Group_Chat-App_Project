@@ -248,7 +248,7 @@ async function displayGroupMembers(groupId) {
     groupMembers.forEach((member) => {
       const listItem = document.createElement("li");
       listItem.textContent = `${member.name} ${
-        member.isAdmin ? "( Admin )" : " "
+        member.isAdmin ? "#Admin " : " "
       }`;
 
       if (!member.isAdmin && isCurrentUserAdmin) {
